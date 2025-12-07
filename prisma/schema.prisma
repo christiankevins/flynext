@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model User {
+  id                  String             @id @default(cuid())
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  firstName           String
+  lastName            String
+  email               String             @unique
+  emailVerified       Boolean            @default(false)
+  phoneNumber         String             @default("")
+  phoneNumberVerified Boolean            @default(false)
+  passwordHash        String
+  isHotelOwner        Boolean?           @default(false)
+  hotels              Hotel[]            @relation("HotelOwner")
+  reservations        Reservation[]
+  bookings            Booking[]
+  verificationCodes   VerificationCode[]
+  notifications       Notification[]
+  cartItem            CartItem?
+}
+
+model VerificationCode {
+  id      String   @id @default(cuid())
+  code    String
+  expires DateTime
+  type    String // "EMAIL" or "PHONE_NUMBER"
+  userId  String
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([code, type, userId])
+}
+
+model Hotel {
+  hotelId       String       @id @default(cuid())
+  name          String
+  country       String
+  province      String
+  city          String
+  streetAddress String
+  postalCode    String
+  latitude      Float
+  longitude     Float
+  starRating    Int          @default(3)
+  amenities     String
+  ownerId       String
+  owner         User         @relation("HotelOwner", fields: [ownerId], references: [id])
+  roomTypes     RoomType[]
+  images        HotelImage[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model HotelImage {
+  id      String  @id @default(cuid())
+  url     String
+  hotel   Hotel?  @relation(fields: [hotelId], references: [hotelId], onDelete: Cascade)
+  hotelId String?
+}
+
+model RoomType {
+  roomId         String          @id @default(cuid())
+  hotelId        String
+  hotel          Hotel           @relation(fields: [hotelId], references: [hotelId])
+  name           String
+  amenities      String
+  pricePerNight  Float
+  totalRooms     Int
+  reservations   Reservation[]
+  availabilities Availability[]
+  images         RoomTypeImage[]
+  beds           Int
+  cartItems      CartItem[]
+}
+
+model RoomTypeImage {
+  id       String    @id @default(cuid())
+  url      String
+  roomType RoomType? @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  roomId   String?
+}
+
+model Availability {
+  availabilityId String   @id @default(cuid())
+  roomId         String
+  roomType       RoomType @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  date           DateTime
+  availableRooms Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Reservation {
+  reservationId   String   @id @default(cuid())
+  roomId          String // Foreign key to RoomType
+  roomType        RoomType @relation(fields: [roomId], references: [roomId])
+  userId          String // Foreign key to User
+  user            User     @relation(fields: [userId], references: [id])
+  checkInDate     DateTime
+  checkOutDate    DateTime
+  status          String // 'RESERVED', 'CANCELLED'
+  booking         Booking?
+  totalHotelPrice Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Booking {
+  bookingId String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+
+  // Flight details
+  afsBookingReference String? @unique
+  lastName            String? // Store the lastName from the booking form
+
+  // Hotel reservation details
+  reservationId String?      @unique
+  reservation   Reservation? @relation(fields: [reservationId], references: [reservationId])
+
+  // Booking status & metadata
+  status    String   @default("BOOKED") // CANCELLED, PAID, BOOKED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  notificationId String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  title          String // 'New Reservation', 'New Booking', 'Booking Changed'
+  message        String
+  read           Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model CartItem {
+  id              String    @id @default(cuid())
+  userId          String
+  singleRoomId    String?
+  outboundFlights String[]  @default([])
+  returnFlights   String[]  @default([])
+  checkInDate     DateTime?
+  checkOutDate    DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  bookingId       String?   @unique
+
+  // Relations
+  user User      @relation(fields: [userId], references: [id])
+  room RoomType? @relation(fields: [singleRoomId], references: [roomId])
+
+  @@unique([userId])
+}

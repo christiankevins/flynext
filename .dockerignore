@@ -1,0 +1,8 @@
+node_modules
+.next
+docker-compose.yml
+services/
+scripts
+run.sh
+startup.sh
+stop.sh

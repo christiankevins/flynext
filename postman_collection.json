@@ -1,0 +1,731 @@
+{
+  "info": {
+    "_postman_id": "9717e0ae-b3cc-45db-a273-dbaa43bac801",
+    "name": "Api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "42839126",
+    "_collection_link": "https://api-test-3440.postman.co/workspace/936dea20-2f2a-4ebb-89f7-2eaa5f1e81d6/collection/42839126-9717e0ae-b3cc-45db-a273-dbaa43bac801?action=share&source=collection_link&creator=42839126"
+  },
+  "item": [
+    {
+      "name": "Account",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n          \"firstName\": \"Christian\",\r\n          \"lastName\": \"Doe\",\r\n          \"email\": \"test123@abc.com\",\r\n          \"password\": \"SecuryePass123!\",\r\n          \"phoneNumber\" : \"6478218981\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/account/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "register"]
+            },
+            "description": "allows users to create a new account by providing their personal details, including `firstName`, `lastName`, `email`, `phoneNumber`, and `password`. Upon successful registration, the system will send a verification email and/or text message based on the environment configuration. It also returns `accessToken` and `refreshToken` as cookies.\n\n- **firstName**: The first name of the user (1-1024 characters).\n    \n- **lastName**: The last name of the user (1-1024 characters).\n    \n- **email**: The email address of the user (must be a valid email address).\n    \n- **phoneNumber**: The phone number of the user (must be in the correct format, e.g., `+1234567890`).\n    \n- **password**: The password of the user (minimum 8 characters)."
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n          \"email\": \"test123@abcd.com\",\r\n          \"password\": \"SecuryePass123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/account/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "login"]
+            },
+            "description": "allows a user to log in by providing their email and password. If the credentials are correct, it returns a success message along with `accessToken` and `refreshToken` as cookies. If the credentials are incorrect, it returns an error message."
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/account/logout",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "logout"]
+            },
+            "description": "This endpoint logs out a user by invalidating their `accessToken` and `refreshToken`. The tokens are removed from the cookies, effectively logging the user out."
+          },
+          "response": []
+        },
+        {
+          "name": "refresh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/account/refresh",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "refresh"]
+            },
+            "description": "This endpoint allows the user to refresh their `accessToken` by using a valid `refreshToken`. The `refreshToken` is provided as a cookie. If valid, a new `accessToken` is generated and returned as a cookie."
+          },
+          "response": []
+        },
+        {
+          "name": "update profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"currentpassword123\",\n  \"new\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"+1234567890\",\n    \"password\": \"newsecurepassword123\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/account/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "profile"]
+            },
+            "description": "This endpoint allows a logged-in user to update their profile information, including `firstName`, `lastName`, `email`, `phoneNumber`, and `password`. The user must provide their current password for verification before making any changes. If the user successfully updates their profile, new `accessToken` and `refreshToken` are generated and set as cookies."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"123456\",\n  \"type\": \"EMAIL\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/account/verify",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "verify"]
+            },
+            "description": "This endpoint verifies a user's email or phone number by validating the provided verification code. The user must be logged in to perform the verification. If the verification is successful, the corresponding `emailVerified` or `phoneNumberVerified` flag is set to `true` for the user."
+          },
+          "response": []
+        },
+        {
+          "name": "get Profile Picture url",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:3000/api/account/getPresignedPostProfilePictureUrl",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "account", "getPresignedPostProfilePictureUrl"]
+            },
+            "description": "This endpoint generates a presigned URL for uploading a user's profile picture to AWS S3. The presigned URL is valid for 1 hour, and it allows the user to upload a `.webp` image with a maximum size of 1MB to the S3 bucket."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n          \"flightIds\": [\"ee372818-cd33-4886-9088-d601947777a2\"],\r\n          \"passengerDetails\": {\r\n            \"firstName\": \"John\",\r\n            \"lastName\": \"Doe\",\r\n            \"email\": \"test@example.com\",\r\n            \"passportNumber\": \"123456789\"\r\n          }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/bookings/book",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "bookings", "book"]
+            },
+            "description": "This API endpoint handles booking requests for flights and/or hotel reservations. It validates the user's input, creates flight bookings via an external system (AFS), checks room availability for hotel reservations, and updates room availability. After successful bookings, it generates a local booking record, sends a notification to the user, and returns the booking details. If any errors occur, appropriate error messages are returned."
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"bookingId\": \"cm7za8i360002ve4g9jhrj9kq\",\r\n  \"paymentInfo\": {\r\n    \"cardNumber\": \"4242424242424242\",\r\n    \"expiryDate\": \"12/26\",\r\n    \"cvv\": \"123\"\r\n  }\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/bookings/checkout",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "bookings", "checkout"]
+            },
+            "description": "This API endpoint allows users to make a payment for their booking. It validates the provided payment details (card number, expiry date, and CVV), checks if the booking exists and belongs to the logged-in user, and ensures the booking isn't canceled before processing the payment. Once validated, the booking status is updated to \"PAID,\" and the payment is confirmed."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"bookingId\": \"b83fea74-01cd-418e-b09d-c761f8206573\",\r\n  \"cancelFlight\": true,\r\n  \"cancelHotel\": false\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/bookings/cancel",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "bookings", "cancel"],
+              "query": [
+                {
+                  "key": "",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "This API endpoint allows users to cancel their flight and/or hotel bookings. It validates the request, checks if the booking exists and belongs to the logged-in user, and then processes the cancellation. It updates the booking status, room availability, and sends appropriate notifications to the user. The endpoint ensures that cancellations are only allowed for valid bookings and sends feedback about the cancellation status."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/bookings/verify?bookingReference=3828F8",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "bookings", "verify"],
+              "query": [
+                {
+                  "key": "bookingReference",
+                  "value": "3828F8"
+                }
+              ]
+            },
+            "description": "This API endpoint verifies a booking based on a provided booking reference (`bookingReference`). It checks if the reference exists in the database and ensures the booking belongs to the authenticated user. If valid, it retrieves detailed flight information from an external system (via the `retrieveBooking` function) and returns the flight details, such as flight number, status, departure/arrival times, and origin/destination cities. If the booking is not found, the user is unauthorized, or any errors occur during the process, appropriate error messages are returned."
+          },
+          "response": []
+        },
+        {
+          "name": "Suggestion",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/bookings/suggestion",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["bookings", "suggestion"]
+            },
+            "description": "This API endpoint provides flight and hotel suggestions based on a user's booking information. If a flight booking reference (`afsBookingReference`) is provided, it retrieves the destination city from the user's flight details and suggests hotels in that city. If a room ID is provided, the endpoint suggests flights to the hotel's city, using the provided or default origin city and check-in date. The response includes a list of recommended hotels or flight options, along with a link to view more details. The endpoint ensures that only one type of booking (flight or hotel) is supplied at a time."
+          },
+          "response": []
+        },
+        {
+          "name": "View Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/bookings/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "bookings", ""]
+            },
+            "description": "This API allows user to view their Bookings"
+          },
+          "response": []
+        },
+        {
+          "name": "Invoice",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"bookingId\": \"cm7xr7mku0003vec4yeqwmsbj\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/bookings/invoice",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "bookings", "invoice"]
+            },
+            "description": "This API endpoint allows authenticated users to generate and download a PDF invoice for their booking. It validates the provided `bookingId` from the query parameters and retrieves the corresponding booking details from the database. The system checks that the booking belongs to the current user and that the booking exists. If valid, it retrieves flight and hotel information, calculates the total cost, and generates a detailed invoice in PDF format. The PDF includes flight details, hotel information, pricing, and a footer thanking the user for their booking. The generated PDF is returned as a response for download or inline display."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hotels",
+      "item": [
+        {
+          "name": "Get hotels",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"hotelId\": \"123\",\r\n  \"name\": \"Hotel Name\",\r\n  \"address\": \"123 Hotel St.\",\r\n  \"city\": \"City Name\",\r\n  \"province\": \"Province Name\",\r\n  \"country\": \"Country Name\",\r\n  \"roomTypes\": [\r\n    {\r\n      \"roomId\": \"1\",\r\n      \"name\": \"Single Room\",\r\n      \"pricePerNight\": 100.0,\r\n      \"totalRooms\": 10,\r\n      \"amenities\": [\"Free Wi-Fi\", \"Air Conditioning\", \"TV\"],\r\n      \"images\": [\"https://example.com/image1.jpg\", \"https://example.com/image2.jpg\"]\r\n    },\r\n    {\r\n      \"roomId\": \"2\",\r\n      \"name\": \"Double Room\",\r\n      \"pricePerNight\": 150.0,\r\n      \"totalRooms\": 5,\r\n      \"amenities\": [\"Free Wi-Fi\", \"Air Conditioning\", \"TV\", \"Mini Bar\"],\r\n      \"images\": [\"https://example.com/image3.jpg\", \"https://example.com/image4.jpg\"]\r\n    }\r\n  ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/?checkInDate=2024-01-01&checkOutDate=2024-01-03&city=Toronto&name=Hotel Toronto&starRating=3&priceMin=50&priceMax=100",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", ""],
+              "query": [
+                {
+                  "key": "checkInDate",
+                  "value": "2024-01-01",
+                  "description": "Check-in date"
+                },
+                {
+                  "key": "checkOutDate",
+                  "value": "2024-01-03",
+                  "description": "Check-out date"
+                },
+                {
+                  "key": "city",
+                  "value": "Toronto",
+                  "description": "City name for filtering"
+                },
+                {
+                  "key": "name",
+                  "value": "Hotel Toronto",
+                  "description": "hotel name  (optional)"
+                },
+                {
+                  "key": "starRating",
+                  "value": "3",
+                  "description": "hotel star rating (optional)"
+                },
+                {
+                  "key": "priceMin",
+                  "value": "50",
+                  "description": "Minimum price per night"
+                },
+                {
+                  "key": "priceMax",
+                  "value": "100",
+                  "description": "Maximum price per night"
+                }
+              ]
+            },
+            "description": "Fetch a list of available hotels based on filters such as check-in/out dates, city, price range, and star rating. price range, name, star rating are optional"
+          },
+          "response": []
+        },
+        {
+          "name": "add hotel",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Luxury Inn\",\n  \"logo\": \"https://example.com/logo.png\",\n  \"country\": \"USA\",\n  \"province\": \"California\",\n  \"city\": \"Los Angeles\",\n  \"streetAddress\": \"123 Main St\",\n  \"postalCode\": \"90001\",\n  \"latitude\": 34.0522,\n  \"longitude\": -118.2437,\n  \"starRating\": 5,\n  \"images\": \"https://example.com/hotel1.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", ""]
+            },
+            "description": "Allows logged-in users to add a new hotel listing."
+          },
+          "response": []
+        },
+        {
+          "name": "add room",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hotelId\": \"1\",\n  \"name\": \"Deluxe Suite\",\n  \"amenities\": \"WiFi, TV, Air Conditioning\",\n  \"pricePerNight\": 200,\n  \"images\": \"https://example.com/room1.jpg\",\n  \"totalRooms\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/room",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", "room"]
+            },
+            "description": "Allows a logged-in user to add a room type to a hotel they own."
+          },
+          "response": []
+        },
+        {
+          "name": "get reservation",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/reservation?date=2024-01-01&roomId=cm7xr0lc30005uacbss47nrme&hotelId=cm7xr0lc30005uacbss47nrme",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", "reservation"],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-01-01",
+                  "description": "Filter reservations by date  (optional) "
+                },
+                {
+                  "key": "roomId",
+                  "value": "cm7xr0lc30005uacbss47nrme",
+                  "description": "Filter reservations by specific room type. (optional) "
+                },
+                {
+                  "key": "hotelId",
+                  "value": "cm7xr0lc30005uacbss47nrme",
+                  "description": "ID of the hotel the owner wants to check."
+                }
+              ]
+            },
+            "description": "Allows a logged-in hotel owner to **view all reservations** for a given hotel, **filtered by date and/or room type**."
+          },
+          "response": []
+        },
+        {
+          "name": "cancel reservation",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reservationId\": \"cm7znghll0001ua3dgzzdrrtt\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/reservation/cancel",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", "reservation", "cancel"]
+            },
+            "description": "Allows a **hotel owner** to cancel a **guest's reservation**. The availability for the room will be updated accordingly."
+          },
+          "response": []
+        },
+        {
+          "name": "get room availability",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/availability?roomId=cm7znghll0001ua3dgzzdrrtt&fromDate=2024-01-01&endDate=2024-01-03",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", "availability"],
+              "query": [
+                {
+                  "key": "roomId",
+                  "value": "cm7znghll0001ua3dgzzdrrtt",
+                  "description": "The ID of the room type to check availability."
+                },
+                {
+                  "key": "fromDate",
+                  "value": "2024-01-01",
+                  "description": "The start date for checking availability."
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-01-03",
+                  "description": "The end date for checking availability."
+                }
+              ]
+            },
+            "description": "Allows a **hotel owner** to check the **availability of a specific room type** over a date range."
+          },
+          "response": []
+        },
+        {
+          "name": "update total rooms",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": \"cm7zq8aul001jua00fdnuh515\",\n  \"newTotalRooms\": 8\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/availability",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", "availability"]
+            },
+            "description": "Allows a **hotel owner** to **update the total number of rooms available** for a specific room type in their hotel. If the new number is lower than the current one, it may require **cancelling reservations** to maintain availability."
+          },
+          "response": []
+        },
+        {
+          "name": "get hotel availability",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/hotels/{id}/availability?dates=[\"2025-04-01\",\"2025-04-02\",\"2025-04-03\"]",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotels", "{id}", "availability"],
+              "query": [
+                {
+                  "key": "dates",
+                  "value": "[\"2025-04-01\",\"2025-04-02\",\"2025-04-03\"]",
+                  "description": "An array of dates to check availability for."
+                }
+              ]
+            },
+            "description": "Allows a visitor to view the **availability** and **details** of different room types for a selected hotel over the specified date range."
+          },
+          "response": []
+        },
+        {
+          "name": "get hotel details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/hotel/{id}/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "hotel", "{id}", ""]
+            },
+            "description": "This endpoint retrieves the details of a hotel, including associated room types and amenities, based on the provided hotel ID."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AFS",
+      "item": [
+        {
+          "name": "Airlines",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/afs/airlines",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "afs", "airlines"]
+            },
+            "description": "retrieves a list of airlines."
+          },
+          "response": []
+        },
+        {
+          "name": "Airports",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/afs/airports?filter=toronto",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "afs", "airports"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "toronto",
+                  "description": "(optional) A string to filter airport names and city names. If not provided, it defaults to an empty string (\"\")."
+                }
+              ]
+            },
+            "description": "This endpoint retrieves a list of airports and organizes them into two groups:\n\n1. Airports that match a city name and filter.\n    \n2. Airports that match the filter but are not part of a city match.\n    \n\nThe filter is applied to both city names and airport names based on the query parameter provided."
+          },
+          "response": []
+        },
+        {
+          "name": "Flights",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/afs/flights",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "afs", "flights"]
+            },
+            "description": "This endpoint retrieves available flights based on the provided query parameters. The parameters include `origin`, `destination`, `date`, `mode` (one-way or round-trip), and optionally `id` to filter specific flights."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notification",
+      "item": [
+        {
+          "name": "read",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/notification/{id}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "notification", "{id}"]
+            },
+            "description": "This endpoint allows a logged-in user to view a notification and mark it as read."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{$BASE_URL} {
+    reverse_proxy web:3000
+}
+
+{$NEXT_PUBLIC_MINIO_ENDPOINT} {
+    reverse_proxy ${MINIO_ENDPOINT}
+}
