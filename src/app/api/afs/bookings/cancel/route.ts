@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AFSError, cancelBooking } from "../../index";
+import { AFSError, cancelBooking } from "../index";
 
 export async function POST(req: NextRequest) {
   let body;

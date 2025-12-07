@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useSession } from "../../session-provider";
+import { useSession } from "../session-provider";
 import { Button } from "~/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";

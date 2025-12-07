@@ -27,7 +27,7 @@ import { Label } from "~/components/ui/label";
 import { Calendar } from "~/components/ui/calendar";
 import { cn } from "~/lib/utils";
 import { DateRange } from "react-day-picker";
-import { useSession } from "../../session-provider";
+import { useSession } from "../session-provider";
 import { dispatchCartUpdate } from "~/lib/cart-events";
 import { useRouter } from "next/navigation";
 

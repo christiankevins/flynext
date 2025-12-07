@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AFSError, getFlight } from "../../index";
+import { AFSError, getFlight } from "../index";
 import { z } from "zod";
 
 const requestSchema = z.object({

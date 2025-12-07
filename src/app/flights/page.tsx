@@ -5,7 +5,7 @@ import { Calendar as CalendarIcon, ArrowLeft } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useSession } from "../../session-provider";
+import { useSession } from "../session-provider";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { listFlights } from "~/app/api/afs";
